@@ -20,6 +20,7 @@ geografie <- read_sf("shapefiles/Geologische_Karte/gk_gdfb_052024_inspire_HB.shp
   st_transform(crs = "EPSG:5677") %>%
   mutate(y = st_coordinates(st_centroid(.))[, 2]) %>%
   filter(y < 5890000) %>%
+  st_make_valid() %>%
   select(-y)
 ax_gewaesser <- read_sf("shapefiles/Basis_DLM/gew01_f.shp") %>%
   st_transform(crs = "EPSG:5677")

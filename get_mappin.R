@@ -1,12 +1,13 @@
+# reduce to relevant areas ----
+ostvor_buff <- st_buffer(st_centroid(ostvor), 1000)
+bbox_wasser <- st_intersection(st_as_sfc(st_bbox(ostvor_buff)), ax_gewaesser)
+
 # "remove" overlaps mit wasser
 inter_geografie <- st_intersection(ax_gewaesser, geografie)
 inter_zentrum   <- st_intersection(ax_gewaesser, zentrum)
 inter_ostvor <- st_intersection(bbox_wasser, ostvor)
 
-# reduce to relevant areas
-ostvor_buff <- st_buffer(st_centroid(ostvor), 1000)
-bbox_wasser <- st_intersection(st_as_sfc(st_bbox(ostvor_buff)), ax_gewaesser)
-
+# create annotations ----
 ostvor_centroids <- ostvor %>%
   st_centroid() %>%
   st_coordinates() %>%
@@ -40,7 +41,7 @@ ganz_brem <- ggplot() +
           color = "#624c36", linewidth = .3, linetype = 6) +
   geom_sf(data = filter(strassen, StrassenAr != "G")[st_buffer(ortsteile, 1200), ],
           color = "#a4a4a4", linewidth = .5) +
-  geom_text(aes(x = 3497668, y = 5899260, label = "Hansestadt Bremen"),
+  geom_text(aes(x = 3502357, y = 5899710, label = "Hansestadt Bremen"),
             family = "Playfair Display ExtraBold", size.unit = "pt", size = 44,
             hjust = 1, vjust = 1) +
   geom_sf(data = st_as_sfc(st_bbox(ostvor_buff)),

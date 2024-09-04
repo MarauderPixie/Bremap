@@ -28,29 +28,31 @@ ostvor_annotations <- tibble(
 )
 
 # final map WIP ----
-ganz_brem <- base_plot +
+ganz_brem <- ggplot() +
+  scale_fill_manual(values = perganeutral) +
+  scale_color_manual(values = perganeutral) +
   geom_sf(data = geografie) +
   geom_sf(data = inter_geografie, fill = col_plot_bg) +
   geom_sf(data = zentrum, aes(fill = bez_st)) +
   geom_sf(data = inter_zentrum, fill = col_plot_bg) +
-  geom_sf(data = ax_gewaesser[ortsteile, ],
-          fill = "darkblue", alpha = .4) +
+  geom_sf(data = ax_gewaesser[ortsteile, ], fill = col_water, alpha = .8) +
   geom_sf(data = ax_bahnstrecke[st_buffer(ortsteile, 1500), ],
           color = "#624c36", linewidth = .3, linetype = 6) +
   geom_sf(data = filter(strassen, StrassenAr != "G")[st_buffer(ortsteile, 1200), ],
-          color = "gray57", linewidth = .5) +
-  geom_text(aes(x = 3502457, y = 5899260), hjust = 1, vjust = 1,
-            family = "Playfair Display ExtraBold", label = "Hansestadt Bremen",
-            size.unit = "pt", size = 44) +
+          color = "#a4a4a4", linewidth = .5) +
+  geom_text(aes(x = 3497668, y = 5899260, label = "Hansestadt Bremen"),
+            family = "Playfair Display ExtraBold", size.unit = "pt", size = 44,
+            hjust = 1, vjust = 1) +
   geom_sf(data = st_as_sfc(st_bbox(ostvor_buff)),
           fill = "transparent", color = pergamono[3],
           linetype = "5151", linewidth = .75)
 
-viertel_zoom <- base_plot +
-  geom_sf(data = ostvor, aes(fill = bez_ot), alpha = .7) +
+viertel_zoom <- ggplot() +
+  scale_fill_manual(values = c("#bfa58a", "#96bf89", "#bfb289", "#bebf89")) +
+  scale_color_manual(values = c("#bfa58a", "#96bf89", "#bfb289", "#bebf89")) +
+  geom_sf(data = ostvor, aes(fill = bez_ot), alpha = 1) +
   geom_sf(data = inter_ostvor, fill = col_plot_bg) +
-  geom_sf(data = bbox_wasser,
-          fill = "darkblue", alpha = .4) +
+  geom_sf(data = bbox_wasser, fill = col_water, alpha = .8) +
   geom_sf(data = bbox_bauwerke, color = pergamono[8]) +
   geom_sf(data = ostvor_bauwerke, color = pergamono[5]) +
   geom_curve(data = ostvor_annotations, curvature = .2,

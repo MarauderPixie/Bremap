@@ -24,6 +24,7 @@ theme_set(
   theme_void() +
     theme(
       legend.position = "none",
+      panel.border = element_rect(fill = NA, color = col_strokes),
       panel.background = element_rect(fill = col_plot_bg),
       plot.background =  element_rect(fill = col_plot_bg),
       strip.background = element_rect(fill = col_plot_bg),

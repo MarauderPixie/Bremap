@@ -36,7 +36,7 @@ ganz_brem <- ggplot() +
   geom_sf(data = inter_geografie, fill = col_plot_bg) +
   geom_sf(data = zentrum, aes(fill = bez_st)) +
   geom_sf(data = inter_zentrum, fill = col_plot_bg) +
-  geom_sf(data = ax_gewaesser[ortsteile, ], fill = col_water, alpha = .8) +
+  geom_sf(data = ax_gewaesser[st_buffer(ortsteile, 1000), ], fill = col_water, alpha = .8) +
   geom_sf(data = ax_bahnstrecke[st_buffer(ortsteile, 1500), ],
           color = "#624c36", linewidth = .3, linetype = 6) +
   geom_sf(data = filter(strassen, StrassenAr != "G")[st_buffer(ortsteile, 1200), ],
@@ -75,15 +75,16 @@ viertel_zoom <- ggplot() +
 
 
 ## create final map & save to png ----
-agg_png("70x50.png", width = 70, height = 50,
-        units = "cm", res = 300, scaling = 2.5)
+agg_png("Bremen-70cmx50cm.png", width = 70, height = 50,
+        units = "cm", res = 300, scaling = 2.5, bg = col_plot_bg)
 
 ganz_brem + inset_element(
   viertel_zoom,
   right = .4,
   top = 0.6,
   left = unit(0, 'npc') + unit(.5, 'cm'),
-  bottom = unit(0, 'npc') + unit(.5, 'cm')
+  bottom = unit(0, 'npc') + unit(.5, 'cm'),
+  clip = FALSE
 )
 
 dev.off()
